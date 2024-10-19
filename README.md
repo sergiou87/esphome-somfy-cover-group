@@ -1,0 +1,1 @@
+# esphome-somfy-remote-control
