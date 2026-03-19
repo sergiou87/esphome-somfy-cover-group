@@ -1,7 +1,7 @@
 import esphome.codegen as cg
 import esphome.config_validation as cv
 from esphome.components import cover
-from esphome.const import CONF_ID, CONF_NAME, UNIT_EMPTY, ICON_EMPTY
+from esphome.const import CONF_ID, CONF_NAME
 
 somfy_cover_group_ns = cg.esphome_ns.namespace("somfy_cover_group")
 SomfyCoverGroup = somfy_cover_group_ns.class_("SomfyCoverGroup", cg.Component)
@@ -11,12 +11,14 @@ AUTO_LOAD = ["cover", "switch"]
 
 CONF_COVERS = "covers"
 CONF_REMOTE_CODE = "remote_code"
+CONF_CALIBRATION = "calibration"
 
 CONFIG_SOMFY_COVER_SCHEMA = cover.COVER_SCHEMA.extend(
     {
         cv.GenerateID(): cv.declare_id(SomfyCover),
         cv.Required(CONF_NAME): cv.string_strict,
         cv.Required(CONF_REMOTE_CODE): cv.uint32_t,
+        cv.Required(CONF_CALIBRATION): cv.positive_time_period_milliseconds,
     }
 ).extend(cv.COMPONENT_SCHEMA)
 
@@ -32,7 +34,7 @@ async def to_code(config):
     await cg.register_component(var, config)
 
     for cc in config[CONF_COVERS]:
-      cg.add(var.add_cover(cc[CONF_NAME], cc[CONF_REMOTE_CODE]))
+            cg.add(var.add_cover(cc[CONF_NAME], cc[CONF_REMOTE_CODE], cc[CONF_CALIBRATION].total_milliseconds))
 
     cg.add_library("EEPROM", None)
     cg.add_library("SPI", None)

@@ -31,19 +31,23 @@ somfy_cover_group:
       - id: "office_big_roller_blind"
         name: "Office Big Roller Blind"
         remote_code: 0x123455
+        calibration: 20s
       - id: "office_small_roller_blind"
         name: "Office Small Roller Blind"
         remote_code: 0x123456
+        calibration: 20s
 ```
 
 Just change the source to this repository if that's what you wanna use, or copy/clone this to your external components folder and tweak the `path` accordingly.
 
-Then add as many `covers` as you want to the `somfy_cover_group` configuration, each with a unique `id`, `name` and `remote_code`. The `remote_code` identifies the remote control. It's like having multiple physical remote controllers in the same device.
+Then add as many `covers` as you want to the `somfy_cover_group` configuration, each with a unique `id`, `name`, `remote_code` and `calibration`. The `remote_code` identifies the remote control. It's like having multiple physical remote controllers in the same device. The `calibration` field is the total time that cover takes to move from fully open to fully closed, and it is used to estimate intermediate positions.
 
 Then, in Home Assistant you will have, for each cover you added:
-- 🪟 The cover controls (to open ⬆️, close ⬇️ and stop ⏹️).
+- 🪟 The cover controls (to open ⬆️, close ⬇️, stop ⏹️ and set an intermediate position). Position is estimated from the configured calibration and kept as assumed state.
 - 🔘 One switch (`PROG`) to synchronize the remote control with the Somfy cover. You need to set the Somfy cover in "pairing mode", and then use the `PROG` switch from Home Assistant in order to pair them together.
 - 🔘 One switch (`FAVORITE`) mapped to the `My` button of the Somfy control, which essentially moves the cover to a "favorite" position that you have configured beforehand.
+
+Because Somfy RTS does not report the real cover position back, the percentage is only an internal estimate. It can drift if the blind is moved with a physical remote, interrupted manually, or powered off mid-travel.
 
 I used the 3D model from [ruedli/SomfyMQTT](https://github.com/ruedli/SomfyMQTT) to create a case for the ESP8266 and CC1101. I copied them to this repo for completion, but all the design is `ruedli`'s. You can find it in the `case` folder.
 

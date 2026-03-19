@@ -42,10 +42,10 @@ void SomfyCoverGroup::dump_config() {
     ESP_LOGCONFIG(TAG, "Somfy cover group");
 }
 
-void SomfyCoverGroup::add_cover(const std::string &name, uint32_t remoteCode) {
-    // log eeprom address and remote code in hex
-    ESP_LOGI("somfy", "adding cover with remote code 0x%x", remoteCode);
-    auto cover = new SomfyCover(name, EMITTER_GPIO, covers.size() * 2, remoteCode);
+void SomfyCoverGroup::add_cover(const std::string &name, uint32_t remote_code, uint32_t calibration_ms) {
+    ESP_LOGI(TAG, "Adding cover '%s' with remote code 0x%x and calibration %u ms", name.c_str(), remote_code,
+             calibration_ms);
+    auto cover = new SomfyCover(name, EMITTER_GPIO, covers.size() * 2, remote_code, calibration_ms);
     covers.push_back(cover);
 
     cover->register_to_app();

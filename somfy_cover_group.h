@@ -15,7 +15,7 @@ class SomfyCoverGroup : public Component {
   void setup() override;
   void dump_config() override;
 
-  void add_cover(const std::string &name, uint32_t remoteCode);
+  void add_cover(const std::string &name, uint32_t remote_code, uint32_t calibration_ms);
 };
 
 }  // namespace somfy_cover_group
