@@ -57,7 +57,7 @@ SomfyCover::SomfyCover(const std::string &name, byte emitterPin, int eepromAddre
 
   this->set_object_id(strdup(name.c_str()));
   this->set_name(strdup(name.c_str()));
-  this->position = cover::COVER_OPEN;
+  this->position = cover::COVER_CLOSED;
   this->tilt = cover::COVER_OPEN;
 }
 
@@ -66,7 +66,7 @@ void SomfyCover::setup() {
   if (restored.has_value()) {
     this->position = clamp(restored->position, cover::COVER_CLOSED, cover::COVER_OPEN);
   } else {
-    this->position = cover::COVER_OPEN;
+    this->position = cover::COVER_CLOSED;
   }
 
   this->tilt = cover::COVER_OPEN;

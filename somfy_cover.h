@@ -19,8 +19,8 @@ private:
   uint32_t remote_code_;
   uint32_t calibration_ms_;
   uint32_t movement_start_ms_{0};
-  float movement_start_position_{cover::COVER_OPEN};
-  float target_position_{cover::COVER_OPEN};
+  float movement_start_position_{cover::COVER_CLOSED};
+  float target_position_{cover::COVER_CLOSED};
   SomfyRemote *remote_;
   EEPROMRollingCodeStorage *storage_;
   SomfySwitch *prog_switch_;
